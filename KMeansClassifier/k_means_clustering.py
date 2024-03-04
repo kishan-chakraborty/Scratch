@@ -84,6 +84,7 @@ class KMeans:
             To assign cluster labels to every sample.
             samples: Data to assign cluster labels.
             centroids: numpy array containing the current centroids. shape: [k, samples.shape[1]]
+            ref: https://vscode.dev/github/kishan-chakraborty/Scratch/blob/main/KMeansClassifier/kmeans_clustering.ipynb#C7:L4
         """
         # Reshape the centroid array to parallelize the distance calculation.
         centroids3d = centroids.reshape(self.k, 1, self.n_feat)# shape: [k,1, X.shape[1]]
@@ -103,12 +104,13 @@ class KMeans:
             # Updating the centroids based on the mean value of sample belonging to ith cluster.
             self.centroids[i] = self.x_train[idx_i].mean(axis=0)
 
-    def _is_converged(self, old_centroids, new_centroids):
+    def _is_converged(self, old_centroids: np.array, new_centroids: np.array) -> bool:
         """
             To check if the training is complete. We consider the training process is complete when
             there is no significant difference between old and updated centroid values.
+            return: True if diff between new and old centroids is less than a threshold (1e-10)
         """
-        distance = (old_centroids - new_centroids)**2
+        distance = ((old_centroids - new_centroids)**2).sum(axis=1)
         out = (distance <= 1e-10).all()
         return out
 
