@@ -1,0 +1,5 @@
+{
+    "pylint.args": [
+        "\"pylint.args\": [\"redefined-outer-name\"]"
+    ]
+}
